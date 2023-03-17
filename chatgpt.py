@@ -1,5 +1,8 @@
 import openai
 import argparse
+import sys
+import colorama
+from colorama import Fore, Style
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Chat with ChatGPT')
@@ -34,23 +37,33 @@ def chat(prompt):
     message = response.choices[0].text.strip()
     return message
 
+# Function to handle KeyboardInterrupt
+def handle_keyboard_interrupt():
+    print(Fore.MAGENTA + Style.BRIGHT + '\nGoodbye!' + Style.RESET_ALL)
+    sys.exit(0)
+
 # Start interactive prompt
+colorama.init() # Initialize colorama
 while True:
-    # Reset prompt
-    prompt = 'Prompt: '
+    try:
+        # Reset prompt
+        prompt = 'Prompt: '
 
-    # Get user input
-    user_input = input(prompt)
+        # Get user input
+        user_input = input(prompt)
 
-    # Exit if user types "exit"
-    if user_input == 'exit':
-        break
+        # Exit if user types "exit"
+        if user_input == 'exit':
+            break
 
-    # Get ChatGPT response
-    response = chat(user_input)
+        # Get ChatGPT response
+        response = chat(user_input)
 
-    # Print ChatGPT response
-    print(f'ChatGPT: {response}')
+        # Print ChatGPT response
+        print(f'ChatGPT: {response}')
 
-    # Add ChatGPT response to prompt
-    prompt += response.strip()
+        # Add ChatGPT response to prompt
+        prompt += response.strip()
+
+    except KeyboardInterrupt:
+        handle_keyboard_interrupt()
