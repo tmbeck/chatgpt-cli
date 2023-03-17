@@ -69,4 +69,13 @@ python chatgpt.py --key YOUR_OPENAI_API_KEY
 python chatgpt.py --key YOUR_OPENAI_API_KEY --model text-davinci-002 --temperature 0.8 --max_tokens 150 --prompt "Hello, ChatGPT! "
 ```
 
-    This will start an interactive prompt where you can type messages to ChatGPT and receive responses. Type "exit" to exit the program.
+    [chatgpt] This will start an interactive prompt where you can type messages to ChatGPT and receive responses. Type "exit" to exit the program.
+
+    [tmbeck] Improve the script by listing the possible values for the `--model` command line option. The values must be supported by chatgpt.
+
+    [chatgpt] Sure, here's an updated version of the Python script that lists the possible values for the `--model` command line option, based on the models supported by OpenAI's GPT-3 API:
+
+...
+
+    [tmbeck] Improve the script by adding a command line option for the user to select which chatgpt model to use, assuming that the user is a chatgpt plus subscriber.
+

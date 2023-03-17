@@ -1,20 +1,24 @@
 import openai
 import argparse
 import sys
+import os
 import colorama
 from colorama import Fore, Style
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Chat with ChatGPT')
 parser.add_argument('--model', default='text-davinci-002', choices=['text-davinci-002', 'text-curie-001', 'text-babbage-001', 'text-ada-001', 'text-davinci-002-001'], help='OpenAI GPT-3 model to use')
-parser.add_argument('--key', required=True, help='OpenAI API key')
+parser.add_argument('--key', help='OpenAI API key (overrides environment variable)')
 parser.add_argument('--temperature', default=0.7, type=float, help='Sampling temperature')
 parser.add_argument('--max_tokens', default=100, type=int, help='Maximum number of tokens to generate')
 parser.add_argument('--chatgptplus', action='store_true', help='Use a ChatGPT+ model')
 args = parser.parse_args()
 
 # Set up OpenAI API credentials
-openai.api_key = args.key
+api_key = args.key if args.key else os.getenv('OPENAI_API_KEY')
+if api_key is None:
+    raise ValueError('OpenAI API key must be specified using --key or the OPENAI_API_KEY environment variable')
+openai.api_key = api_key
 
 # Set up ChatGPT
 if args.chatgptplus:
