@@ -7,7 +7,6 @@ parser.add_argument('--model', default='text-davinci-002', choices=['text-davinc
 parser.add_argument('--key', required=True, help='OpenAI API key')
 parser.add_argument('--temperature', default=0.7, type=float, help='Sampling temperature')
 parser.add_argument('--max_tokens', default=100, type=int, help='Maximum number of tokens to generate')
-parser.add_argument('--prompt', default='', help='Initial prompt for the conversation')
 parser.add_argument('--chatgptplus', action='store_true', help='Use a ChatGPT+ model')
 args = parser.parse_args()
 
@@ -36,20 +35,19 @@ def chat(prompt):
     return message
 
 # Start interactive prompt
-prompt = args.prompt
 while True:
+    # Reset prompt
+    prompt = 'Prompt: '
+
     # Get user input
-    user_input = input(f'Prompt: {prompt}')
+    user_input = input(prompt)
 
     # Exit if user types "exit"
     if user_input == 'exit':
         break
 
-    # Add user input to prompt
-    prompt += user_input.strip()
-
     # Get ChatGPT response
-    response = chat(prompt)
+    response = chat(user_input)
 
     # Print ChatGPT response
     print(f'ChatGPT: {response}')
