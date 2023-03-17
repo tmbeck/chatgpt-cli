@@ -7,11 +7,12 @@ from colorama import Fore, Style
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Chat with ChatGPT')
-parser.add_argument('--model', default='text-davinci-002', choices=['text-davinci-002', 'text-curie-001', 'text-babbage-001', 'text-ada-001', 'text-davinci-002-001'], help='OpenAI GPT-3 model to use')
+parser.add_argument('--model', default='davinci', help='OpenAI GPT-3 model to use')
 parser.add_argument('--key', help='OpenAI API key (overrides environment variable)')
 parser.add_argument('--temperature', default=0.7, type=float, help='Sampling temperature')
 parser.add_argument('--max_tokens', default=100, type=int, help='Maximum number of tokens to generate')
 parser.add_argument('--chatgptplus', action='store_true', help='Use a ChatGPT+ model')
+parser.add_argument('--models', nargs='?', const=True, help='List supported models and exit')
 args = parser.parse_args()
 
 # Set up OpenAI API credentials
@@ -20,11 +21,19 @@ if api_key is None:
     raise ValueError('OpenAI API key must be specified using --key or the OPENAI_API_KEY environment variable')
 openai.api_key = api_key
 
+# List supported models and exit if --models is specified without an argument
+if args.models:
+    models = openai.Model.list()
+    print('Supported models:')
+    for model in models['data']:
+        print(f"  {model['id']}")
+    sys.exit()
+
 # Set up ChatGPT
 if args.chatgptplus:
     models = ['text-davinci-002-001', 'text-davinci-002']
 else:
-    models = ['text-davinci-002', 'text-curie-001', 'text-babbage-001', 'text-ada-001']
+    models = ['davinci', 'curie', 'babbage', 'ada']
 if args.model not in models:
     raise ValueError(f'Invalid model "{args.model}", must be one of {models}')
 def chat(prompt):
