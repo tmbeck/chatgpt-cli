@@ -3,7 +3,7 @@ import argparse
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Chat with ChatGPT')
-parser.add_argument('--model', default='text-davinci-002', help='OpenAI GPT-3 model to use')
+parser.add_argument('--model', default='text-davinci-002', choices=['text-davinci-002', 'text-curie-001', 'text-babbage-001', 'text-ada-001'], help='OpenAI GPT-3 model to use')
 parser.add_argument('--key', required=True, help='OpenAI API key')
 parser.add_argument('--temperature', default=0.7, type=float, help='Sampling temperature')
 parser.add_argument('--max_tokens', default=100, type=int, help='Maximum number of tokens to generate')
